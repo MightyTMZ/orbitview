@@ -1,0 +1,8 @@
+.env
+__pycache__
+.idea
+
+test_tokens.txt
+smtp-info.txt
+email_debug.py
+python-anywhere-settings.py
