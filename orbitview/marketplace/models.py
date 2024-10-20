@@ -10,3 +10,9 @@ Features:
 - User reviews and ratings
 - Payment integration (with the billing app)
 """
+"""
+Model Classes:
+
+- ProductListing
+
+"""

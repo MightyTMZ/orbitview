@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'ckeditor',
+    'corsheaders',
+    'django_filters', 
+    'djoser',
     'accounts',
     'ai', 
     'ar_vr', 
@@ -56,6 +62,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -141,3 +148,43 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SEND_ACTIVATION_EMAIL': True,
+    'ACTIVATION_URL': 'auth/activate/{uid}/{token}/',
+    'PASSWORD_RESET_CONFIRM_URL': 'auth/password/reset/confirm/{uid}/{token}/',
+    'SEND_CONFIRMATION_EMAIL': True,
+    'EMAIL': {
+        'activation': 'djoser.email.ActivationEmail',
+        'confirmation': 'djoser.email.ConfirmationEmail',
+        'password_reset': 'djoser.email.PasswordResetEmail',
+        'password_changed_confirmation': 'djoser.email.PasswordChangedConfirmationEmail',
+    },
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120), # CHANGE THIS BEFORE PRODUCTION
+    # every time the user sends an access token to gain access to confidential content
+    # if that request fails, use the refresh token to gain a new access token
+
+    # Login --> creates new refresh token and stores in HTTP-only cookie
+    # Logout --> revoke/delete the refresh token stored in the HTTP-only cookie
+
+}
+
+
+DJOSER = {
+    "SERIALIZERS": {
+        "user_create": 'accounts.serializers.UserCreateSerializer',
+        'current_user': 'accounts.serializers.UserSerializer',
+    }
+}

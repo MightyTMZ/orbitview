@@ -9,3 +9,4 @@ python-anywhere-settings.py
 
 venv
 db.sqlite3
+test-tokens.txt

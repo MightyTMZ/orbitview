@@ -6,6 +6,12 @@ name = "pypi"
 [packages]
 pyrebase4 = "*"
 mysqlclient = "*"
+django-debug-toolbar = "*"
+django = "*"
+djangorestframework = "*"
+djoser = "*"
+django-cors-headers = "*"
+django-filter = "*"
 
 [dev-packages]
 
